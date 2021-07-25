@@ -1,0 +1,367 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<!--   Tue, 07 Jan 2020 03:33:27 GMT -->
+<head>
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+<title>{{user.username}}&mdash; Dashboard</title>
+
+<!-- General CSS Files -->
+<link rel="stylesheet" href="{% static 'user-dashboard/assets/modules/bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'user-dashboard/assets/modules/fontawesome/css/all.min.css' %}">
+
+<!-- CSS Libraries -->
+<link rel="stylesheet" href="{% static 'user-dashboard/assets/modules/jqvmap/dist/jqvmap.min.css' %}">
+<link rel="stylesheet" href="{% static 'user-dashboard/assets/modules/summernote/summernote-bs4.css' %}">
+<link rel="stylesheet" href="{% static 'user-dashboard/assets/modules/owlcarousel2/dist/assets/owl.carousel.min.css' %}">
+<link rel="stylesheet" href="{% static 'user-dashboard/assets/modules/owlcarousel2/dist/assets/owl.theme.default.min.css' %}">
+
+<!-- Template CSS -->
+<link rel="stylesheet" href="{% static 'user-dashboard/assets/css/style.min.css' %}">
+<link rel="stylesheet" href="{% static 'user-dashboard/assets/css/components.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/modules/bootstrap-social/bootstrap-social.css' %}">
+
+{% block head %}
+{% endblock %}
+
+<!-- icofont icon -->
+<link rel="stylesheet" href="{% static 'assets/css/icofont.css' %}">	
+<!-- font awesome icon -->
+<link rel="stylesheet" href="{% static 'assets/css/fontawesome-all.min.css' %}">	
+
+
+<style>
+    #floater{
+         position:fixed;
+         box-shadow:4px white;
+         bottom:12px;
+         right:20px;
+         width: fit-content;
+         height: fit-content;
+         font-size:35px;
+         box-shadow:white 5px;
+        
+         z-index : 300;
+        }
+    </style>
+</head>
+
+
+<body class="layout-4">
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <span class="loader"><span class="loader-inner"></span></span>
+</div>
+
+
+<div id="app">
+    <div class="main-wrapper main-wrapper-1">
+        <div class="navbar-bg"></div>
+        
+        <!-- Start app top navbar -->
+        <nav class="navbar navbar-expand-lg main-navbar">
+            <form class="form-inline mr-auto">
+                <ul class="navbar-nav mr-3">
+                    <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+                    <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
+                </ul>
+                <div class="search-element">
+                    <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250">
+                    <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                    <div class="search-backdrop"></div>
+                    <div class="search-result">
+                        
+                    </div>
+                </div>
+            </form>
+            <ul class="navbar-nav navbar-right">
+                
+                <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
+                    <div class="dropdown-menu dropdown-list dropdown-menu-right">
+                    <div class="dropdown-header">Notifications
+                       
+                    </div>
+                    <div class="dropdown-list-content dropdown-list-icons">
+                        {% for not in user.notification.all %}
+                        <a href="#" class="dropdown-item">
+                            <div class="dropdown-item-icon bg-primary text-white">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="dropdown-item-desc"> {{not.message}}
+                                <div class="time text-primary">{{not.date.date}}</div>
+                            </div>
+                        </a>    
+                       {% endfor %}
+                     
+                    </div>
+                    <div class="dropdown-footer text-center">
+                        
+                    </div>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                            <figure class="avatar mr-2 bg-warning text-white" data-initial="{{initial}}"></figure>
+                    <div class="d-sm-none d-lg-inline-block">Hi, {{user.username}}</div></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        
+                        <a href="{% url 'profile' %}" class="dropdown-item has-icon"><i class="far fa-user"></i> Profile</a>
+                        
+                        <div class="dropdown-divider"></div>
+                        <a href="{% url 'logout' %}" class="dropdown-item has-icon text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Start main left sidebar menu -->
+        <div class="main-sidebar sidebar-style-3">
+            <aside id="sidebar-wrapper">
+               
+                <ul class="sidebar-menu">
+
+                        <li class="dropdown ">
+                                <a href="{% url 'index' %}" ><i class="fas fa-home"></i><span>Home</span></a>
+                               
+                        </li>  
+                   
+                    <li class="dropdown ">
+                       <a href="{% url 'dashboard' %}" ><i class="fas fa-fire"></i><span>Dashboard</span></a>
+                      
+                    </li> 
+                    <li class="dropdown ">
+                            <a href="{% url 'profile' %}" ><i class="fas fa-user"></i><span>Profile</span></a>
+                           
+                    </li>
+                    <li class="dropdown ">
+                            <a href="{% url 'withdraw' %}" ><i class="fas fa-arrow-down"></i><span>Withdraw</span></a>
+                           
+                    </li>  
+                    <li class="dropdown ">
+                            <a href="{% url 'plans' %}" ><i class="fas fa-arrow-up"></i><span>Invest</span></a>
+                           
+                    </li>  
+   
+                </ul>
+               
+            </aside>
+        </div>
+
+        
+
+        <!-- Start app main Content -->
+        <div class="main-content">
+            {% block content %}
+            <section class="section">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="card card-statistic-2">
+                        
+                            <div class="card-icon shadow-primary bg-primary">
+                                <i class="fas fa-archive"></i>
+                            </div>
+                            <div class="card-wrap">
+                                    <div class="row">
+                                            <div class="col-6" style="margin:0px;padding:0px">
+                                                <div class="card-header">
+                                                    <h4>Balance</h4>
+                                                </div>
+                                                <div class="card-body" style="font-size:21px">
+                                                    ${{user.user_wallet.current_balance}}
+                                                </div>
+                                            </div>
+                                            <div class="col-6" style="margin:0px;padding:0px">
+                                                    <div class="card-header">
+                                                        <h4>Plan</h4>
+                                                    </div>
+                                                    <div class="card-body" style="font-size:21px">
+                                                        {% if user.user_wallet.plan.name %}
+                                                            {{user.user_wallet.plan.name}}
+                                                          
+                                                            {% else %}
+                                                            None
+                                                            {% endif %}
+                                                    </div>
+                                                    <span>matures -  {{user.user_wallet.plan_end.date}}</span>
+                                                </div>
+                                        </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="card card-statistic-2">
+                            
+                                <div class="card-icon shadow-primary bg-primary">
+                                    <i class="fas fa-archive"></i>
+                                </div>
+                                <div class="card-wrap">
+                                        <div class="row">
+                                                <div class="col-6" style="margin:0px;padding:0px">
+                                                    <div class="card-header">
+                                                        <h4>Referral earning</h4>
+                                                    </div>
+                                                    <div class="card-body" style="font-size:21px">
+                                                       ${{user.user_wallet.referral_earning }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-6" style="margin:0px;padding:0px">
+                                                        <div class="card-header">
+                                                            <h4>Referrals</h4>
+                                                        </div>
+                                                        <div class="card-body" style="font-size:21px">
+                                                           {{user.referals|length}}
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="card card-statistic-2">
+                                
+                                    <div class="card-icon shadow-primary bg-primary">
+                                        <i class="fas fa-archive"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                        <div class="row">
+                                            <div class="col-6" style="margin:0px;padding:0px">
+                                                <div class="card-header">
+                                                    <h4>Pending Deposit</h4>
+                                                </div>
+                                                <div class="card-body" style="font-size:21px">
+                                                    ${% if user.user_pending_deposit.plan.activation_cost %}
+                                                    {{user.user_pending_deposit.plan.activation_cost}}
+                                                    {% else %}
+                                                    0.00
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="col-6" style="margin:0px;padding:0px">
+                                                    <div class="card-header">
+                                                        <h4>Pending Withdrawal</h4>
+                                                    </div>
+                                                    <div class="card-body" style="font-size:21px" style="color:red">
+                                                        -${% if user.pending_withdrawal %}
+                                                        {{user.pending_withdrawal.amount}}
+                                                        {% else %}
+                                                        0.00
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+                <div class="row row-deck">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Live Chart</h4>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="myChart" height="158"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Transactions</h4>
+                                    
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="table-responsive table-invoice">
+                                        <table class="table table-striped">
+                                        <tr>
+                                            <th>Transaction ID</th>
+                                            <th>Amount</th>
+                                            <th>Transaction Type</th>
+                                            <th>Coin</th>
+                                            <th>Date</th>
+                                        </tr>
+                                         {% for tran in user.user_transaction.all %}
+                                        <tr>
+                                            <td>#{{tran.pk}}</td>
+                                            <td class="font-weight-600">{{tran.amount}}</td>
+                                            <td><div class="badge badge-warning">{{tran.transaction_type}}</div></td>
+                                            <td>{{tran.coin}}</td>
+                                            <td>{{tran.date}}</td>
+                                         
+                                        </tr>
+                                        {% endfor  %}
+                                        
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                </div>
+        
+            </section>
+            
+            {% endblock %}
+
+ 
+        
+
+        
+
+        <!-- Start app Footer part ->
+        <footer class="main-footer">
+            <div class="footer-left">
+                 <div class="bullet"></div>  <a href="templateshub.net">Templates Hub</a>
+            </div>
+            <div class="footer-right">
+            
+            </div>
+        </footer-->
+    </div>
+</div>
+
+{% if redirect_message %}
+<center>
+<div style="position:fixed;top:45%;z-index:1000;width:40%;right:30%" class="alert alert-success alert-dismissible show fade">
+        <div class="alert-body">
+            <button class="close" data-dismiss="alert">&nbsp;&nbsp;<span>&times;</span></button>
+            {{redirect_message}}
+        </div>
+    </div>
+</center>
+{% endif %}
+
+     <!--whatsapp float-->
+     <a href="https://wa.me/+2348162467444" class="" id="floater"  ><i class="fa fa-comment" id="chat-icon" style="color:#6e4e9e;font-size: 40px;"></i></a>
+   <!--end whatsapp float-->
+
+
+
+<!-- General JS Scripts -->
+<script src="{% static 'user-dashboard/assets/bundles/lib.vendor.bundle.js' %}""></script>
+<script src="{% static 'user-dashboard/js/CodiePie.js' %}""></script>
+
+<!-- JS Libraies -->
+<script src="{% static 'user-dashboard/assets/modules/jquery.sparkline.min.js' %}""></script>
+<script src="{% static 'user-dashboard/assets/modules/chart.min.js' %}""></script>
+<script src="{% static 'user-dashboard/assets/modules/owlcarousel2/dist/owl.carousel.min.js' %}""></script>
+<script src="{% static 'user-dashboard/assets/modules/summernote/summernote-bs4.js' %}""></script>
+<script src="{% static 'user-dashboard/assets/modules/chocolat/dist/js/jquery.chocolat.min.js' %}""></script>
+
+<!-- Page Specific JS File -->
+<script src="{% static 'user-dashboard/js/page/index.js' %}""></script>
+
+<!-- Template JS File -->
+<script src="{% static 'user-dashboard/js/scripts.js' %}""></script>
+<script src="{% static 'user-dashboard/js/custom.js' %}""></script>
+</body>
+
+<!--   Tue, 07 Jan 2020 03:35:12 GMT -->
+</html>

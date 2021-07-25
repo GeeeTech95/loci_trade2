@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!-- START PAGE BANNER AND BREADCRUMBS -->
+<section id="page-banner">
+		<div class="single-page-title-area overlay" data-background="{%  static 'assets/img/bg/slide1.jpg' %}">
+			<div class="auto-container">
+				<div class="row">
+					<div class="col-12 text-center">
+						<div class="single-page-title">
+							<h2>Checkout  </h2>
+							<p></p>
+						</div>
+					</div>
+				</div>
+				<!-- end row-->
+			</div>
+		</div>
+		<div class="single-page-title-area-bottom">
+			<div class="auto-container">
+				<div class="row">
+					<div class="col-12 text-center">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="{% url 'index' %} ">Home</a></li>
+							<li class="breadcrumb-item active">Deposit</li>
+						</ol>
+					</div>
+				</div>
+				<!-- end row-->
+			</div>
+		</div>
+	</section>
+	<!-- END PAGE BANNER AND BREADCRUMBS -->
+	
+	
+	<!-- START SHOP CHECKOUT -->
+	<section class="section-padding" style="padding-top:20px">
+		<div class="auto-container">
+          
+                <center>
+				
+                    <h5 class="mt-5 text-uppercase mb-4">Enter Amount For the selected Plan</h5>
+                    <p>Minimum of <b>${{plan.min_cost}}</b> {% if plan.max_cost %}and maximum of <b>${{plan.max_cost}}</b>{% else %}{% endif %}</p>
+					<div class="table-responsive">
+						<table class="table table-striped">
+                            <form action="{% url 'enter-amount' plan.slug %}" method='POST'>
+                                <div style="padding:10px" class="form-group col-6 mb-3">
+                                        {% csrf_token %}
+                                      {{form|crispy}}
+                                      <input value="Submit" name="submit" id="submitButton" class="btn btn-contact-bg" title="Click here to submit your message!" type="submit">
+                                    </div>
+                            </form>        
+						</table>
+					</div>
+              
+            </center>
+                
+                
+				<!-- end col -->
+				
+				<!-- end col -->
+			</div>
+            <!-- end row-->
+           
+	</section>
+    <!-- END SHOP CHECKOUT -->
+    
+    {% endblock %}

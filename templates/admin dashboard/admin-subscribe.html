@@ -1,0 +1,80 @@
+{% extends 'dashboard-base.html' %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+<div class="main-content" >
+        <section class="section">
+            
+          <div class="section-body">
+                
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+                   <div class="card">
+                       
+                        <!--h4 style="margin:10px;color:black;">Change Pin</h4-->
+                         
+                        <form class="needs-validation" novalidate="" method="POST" action="">
+                            {% csrf_token %}
+                        <div class="card-header">
+                            <h4>Make Payment</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-12 col-md-6 col-lg-6">
+                              
+                                <div class="card"  style="padding:20px">
+                                    <p>Make a payment of the amount below,and add the payment code to the description<b>(Very Important)</b></p>
+                                    <b>
+                                   Amount : #{{pay_code.amount}}<br>
+                                   Payment Code : {{pay_code.code}}
+                                    </b>
+                                </div>
+                             </div>
+
+                             <div class="col-12 col-md-6 col-lg-6">
+                                 <div class="card"  style="padding:20px">
+                                    <p>Do ensure payment is made only to the designated bank accounts,Click on the proceed button when payments has been  made.</p>
+                                    <b>
+                                     {% for bank in banks %}
+                                     Bank name : {{bank.acc_name}}<br>
+                                     Account number : {{bank.acc_no}}<br>
+                                     Bank : {{bank.bank_name}}<br>
+                                     {% endfor %}
+                                    </b>
+                                    
+                                  </div>
+                              </div>
+                        </div>
+                       
+                        </form>
+                        <div class="card-footer text-right">
+                            <button action_url=" " id="made-payment" class="btn btn-primary">Payment Made</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </section>
+</div>            
+{% endblock %}
+
+   
+ {% block js %}
+ <script>
+
+ $("#made-payment").click(function(){
+    var url = $(this).attr('action_url')
+    $('#pop-up-modal-title').html('Confirm')
+    $('.pop-up-modal-body p').html("Are you you have made this payment ?")
+    $("#modal-pop-up-footer a").attr('href',url)
+    $("#modal-pop-up-footer #yes-approve").html("Comfirm")
+    $("#modal-pop-up-footer #yes-approve").removeAttr('hidden')
+    $("#globalmodal").modal('show')
+   
+})
+
+</script>
+ {% endblock %}
