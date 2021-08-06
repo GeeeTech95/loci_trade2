@@ -11,9 +11,12 @@ from .forms import SettingsForm
 from django.utils import timezone
 
 class AdminBase(UserPassesTestMixin,LoginRequiredMixin,) :
+
+    def get_user(self) :
+        return None
     
     def test_func(self) :
-        if True : return True
+        
         try :
             admin = self.request.user.user_admin
             self.admin = admin
@@ -22,13 +25,17 @@ class AdminBase(UserPassesTestMixin,LoginRequiredMixin,) :
 
         #check if free plan has expired
         if admin.free_plan_expired :
-            return False
+            #return False
+            pass
 
-        if self.request.user.date_joined.timedelta(days=settings.FREE_PLAN_DURATION) < timezone.now() :
-            admin.free_plan_expired = True
-            admin.save()
-            return False
-            
+        if True :
+            #self.request.user.date_joined.timedelta(days=settings.FREE_PLAN_DURATION) < timezone.now() :
+            #admin.free_plan_expired = True
+            #admin.save()
+            #return False
+            pass
+
+ 
         return True 
 
 

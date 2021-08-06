@@ -289,7 +289,7 @@
         <li class="dropdown" style="padding-left:0px">
             <a style="padding-left:10px" href="#" class="menu-toggle nav-link has-dropdown"><i class="fas fa-arrow-down"></i><span>Withdrawals</span></a>
             <ul class="dropdown-menu">
-              <li><a class="nav-link"href="">Withdrawal Requests</a></li>
+              <li><a class="nav-link"href="{% url 'withdrawals' %}">Withdrawal Requests</a></li>
            
             </ul>
         </li>
@@ -320,14 +320,14 @@
         </li>
 
         
-        <li class="dropdown" style="padding-left:0px">
+        <!--li class="dropdown" style="padding-left:0px">
             <a style="padding-left:10px" href="#" class="menu-toggle nav-link has-dropdown"><i class="fas fa-envelope"></i><span>Email</span></a>
             <ul class="dropdown-menu">
 
               <li><a class="nav-link"href="">Send All Members Email </a></li>
              
             </ul>
-        </li>
+        </li-->
 
         <li class="dropdown" style="padding-left:0px">
             <a style="padding-left:10px" href="#" class="menu-toggle nav-link has-dropdown"><i class="fas fa-cog"></i><span>Settings</span></a>
@@ -379,6 +379,7 @@
           </div>
           <div  id="modal-pop-up-footer" class="modal-footer bg-whitesmoke br">
               <button hidden type="button" id="yes-approve" class="btn btn-primary"></button>
+              <button hidden target_url= "{% url 'delete-coin' %}" type="button" id="yes-delete" class="btn btn-primary"></button>
             <button hidden type="button" id="footer-button" class="btn btn-primary"></button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>

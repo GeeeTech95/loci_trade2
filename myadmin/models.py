@@ -11,7 +11,6 @@ from django.utils import timezone
 
 class MyAdmin(models.Model) :
     
-
     def get_reg(self) :
         _id = random.randrange(9999999,999999999999)
         if MyAdmin.objects.filter(reg_id = _id).exists() :
@@ -19,7 +18,7 @@ class MyAdmin(models.Model) :
         return _id        
    
     user = models.OneToOneField(get_user_model(),on_delete = models.CASCADE,related_name='user_admin')
-    secret_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
+    #secret_id = models.UUIDField(default=uuid.uuid4,editable=False,unique=True)
     reg_id = models.CharField(max_length=40,editable=False)
     total_revenue  = models.FloatField(default = 0.00)
     is_active = models.BooleanField(default  = True)
@@ -41,6 +40,9 @@ class MyAdmin(models.Model) :
         if not self.reg_id :
             self.reg_id= self.get_reg()
         super(MyAdmin,self).save(*args,**kwargs)
+
+
+   
     
     @property
     def reg_link(self) :
@@ -75,10 +77,10 @@ class WalletAddress(models.Model) :
     def __str__(self,*args,**Kwargs) :
         return self.coin_code
 
-    def save(self) :
+    def save(self,**kwargs) :
         self.coin_name = self.coin_name.upper()
         self.coin_code = self.coin_code.upper()
-        super(WalletAddress,self).save(*args,**Kwargs)
+        super(WalletAddress,self).save(**kwargs)
 
 
 

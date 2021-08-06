@@ -116,21 +116,21 @@
 
     $("#yes-approve").on('click',function(){
 
-        $("#yes-approve").html("processing...");
-        var pk = $("#approve-deposit").attr('pk')
+        $(this).html("processing...");
+        var pk = $(this).attr('pk')
         $.ajax({
             type:"GET",
-            url :  $("#approve-deposit").attr('action_url'),
+            url :  $(this).attr('action_url'),
             data : {'pk' : pk},
             success : function(data){
            
                 if(data.success){
-                  $("#yes-approve").html("<i class='fa fa-thumbs-up'></>");
+                  $(this).html("<i class='fa fa-thumbs-up'></>");
                   $("#action-cell").html("<button class='btn btn-success'>Approved</button>");
                 }
                 
                 else if(data.error){
-                  $("#yes-approve").html("<i class='fa fa-bad'></>");
+                  $(this).html("<i class='fa fa-bad'></>");
                     $('#pop-up-modal-title').html('Error !')
                   $('.pop-up-modal-body p').html(data.error)
                   //$("#globalmodal").modal('close')
@@ -141,6 +141,7 @@
         
     });
 });
+
 </script>
 
 {% endblock %}

@@ -1,7 +1,7 @@
 from django.urls import path,include
 from .dashboard import Dashboard,Members,Settings
 from .members import MemberDetail
-from .investment import CreatePlan,AllPlans,DepositNotice,ApproveDeposit
+from .investment import CreatePlan,AllPlans,DepositNotice,ApproveDeposit,WithdrawalRequest
 from .wallet import  AddCoin,CoinList,DeleteCoin,EditCoin
 from .transaction import CreateTransaction,TransactionHistory
 from .email import SendCustomMail
@@ -42,7 +42,7 @@ urlpatterns = [
     #TRANSACTION
     path('transaction/create/<str:wallet_id>/',CreateTransaction.as_view(),name='create-transaction'),
     path('transactions/',TransactionHistory.as_view(),name = 'transaction-history'),
-
+    path('withdrawals/',WithdrawalRequest.as_view(),name = 'withdrawals'),
 
     #EMAIL
     path('mail/send-custom-email/<str:wallet_id>/',SendCustomMail.as_view(),name='send-custom-mail'),

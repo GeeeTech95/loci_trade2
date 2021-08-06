@@ -12,10 +12,8 @@ class SettingsForm(ModelForm) :
 
 class SendMailForm(forms.Form)  :
 
-    def __init__(self, admin=None,*args, **kwargs) :  
+    def __init__(self,*args, **kwargs) :  
         """ admin is a user instance of the admin"""
-        global myadmin 
-        myadmin = admin
         super(SendMailForm,self).__init__(*args, **kwargs)
 
     #users  = forms.ModelMultipleChoiceField(queryset=myadmin.users.all(),help_text="You can select one or multiple users")
@@ -38,3 +36,9 @@ class TransactionForm(ModelForm) :
     class Meta() :
         model = Transaction 
         fields = ['user','transaction_type','amount','description']   
+
+
+
+    #class DeleteCoinForm(forms.Form) :
+    #pin = forms.CharField()
+    #pk = forms.CharField()

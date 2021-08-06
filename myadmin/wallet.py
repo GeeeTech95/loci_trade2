@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 from django.views.generic import CreateView,View,TemplateView,ListView,DetailView
 from django.views.generic.edit import  DeleteView,UpdateView
 from django.urls import reverse,reverse_lazy
@@ -30,8 +31,30 @@ class CoinList(AdminBase,ListView) :
         return self.model.objects.filter(admin = self.request.user.user_admin)
 
 
-class DeleteCoin(AdminBase,DeleteView) :
-    pass
+class DeleteCoin(AdminBase,View) :
+    model = WalletAddress
+
+    def get(self,request,*args,**kwargs) :
+        feedback = {}
+        pk = request.GET.get('pk',None)
+        if not pk :
+            feedback['error'] = "pk cannot be empty"
+            return JsonResponse(feedback)
+        try : coin  = self.model.objects.get(pk = pk)  
+        except self.model.DoesNotExist : 
+            feedback['error'] = "pk is not valid"
+            return JsonResponse(feedback)    
+        if coin.admin == self.admin :
+            coin.delete()
+            feedback['success'] = "Wallet address deleted successfully"   
+            pass
+        else : feedback['error'] = "You have no permission to perform this action"
+        
+        return JsonResponse(feedback) 
+
+
+
+    
 
 
 class EditCoin(AdminBase,UpdateView) :

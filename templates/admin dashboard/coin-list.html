@@ -54,9 +54,9 @@
                                                       Action
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                      <a class="dropdown-item has-icon" href="#"><i class="far fa-envelope"></i>Edit</a>
+                                                      <!--a class="dropdown-item has-icon" href="#"><i class="far fa-envelope"></i>Edit</a-->
 
-                                                      <a class="dropdown-item has-icon" href=""><i class="far fa-trash"></i>Delete</a>
+                                                      <a target_url="{% url 'delete-coin' %}" coin_pk="{{coin.pk}}" id="delete-address" class="dropdown-item has-icon" ><i  class="far fa-trash"></i>Delete</a>
                                                      
                                                     </div>
                                                   </div> 
@@ -74,4 +74,50 @@
           </div>
         </section>
 </div>            
+{% endblock %}
+
+{% block js %}
+<script>
+
+$("#delete-address").click(function(){
+  var pk = $(this).attr("coin_pk")
+  $('#pop-up-modal-title').html('Confirm')
+  $('.pop-up-modal-body p').html("Are you sure you want to Delete this Wallet address ?")
+  $("#modal-pop-up-footer #yes-delete").html("Delete")
+  $("#modal-pop-up-footer #yes-delete").removeAttr('hidden')
+  $("#modal-pop-up-footer #yes-delete").attr("target_pk",pk)
+  $("#globalmodal").modal('show')
+ 
+})
+
+
+$("#yes-delete").on('click',function(){
+
+  $(this).html("processing...");
+  var pk = $(this).attr('target_pk')
+  $.ajax({
+      type:"GET",
+      url :  $(this).attr('target_url'),
+      data : {'pk' : pk}, 
+      success : function(data){
+     
+          if(data.success){
+            
+            $("#yes-delete").html("<i class='fa fa-thumbs-up'></i>");
+            $("#action-cell").html("<button class='btn btn-success'>Deleted</button>");
+          }
+          
+          else if(data.error){
+            $("#yes-delete").html("<i class='fa fa-bad'></>");
+              $('#pop-up-modal-title').html('Error !')
+            $('.pop-up-modal-body p').html(data.error)
+            //$("#globalmodal").modal('close')
+           
+          
+          }
+      }
+  
+});
+});
+</script>
 {% endblock %}

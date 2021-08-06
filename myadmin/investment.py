@@ -25,6 +25,7 @@ class CreatePlan(AdminBase,CreateView) :
         form.save()
         return HttpResponseRedirect(self.success_url)
 
+
  
 class AllPlans(AdminBase,ListView) :
     model  = Plan
@@ -115,7 +116,7 @@ class DeclineDeposit(AdminBase,View)   :
 class WithdrawalRequest(AdminBase,ListView) :
     model = WithdrawalApplication
     template_name = 'withdrawal_application.html'
-    context_object_name = 'applications'
+    context_object_name = 'withdrawals'
 
     
     def get_queryset(self) :

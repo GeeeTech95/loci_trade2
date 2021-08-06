@@ -30,8 +30,7 @@ class ValidationCode()     :
         email_receiver = user.email
         #payload = self.convert_html_to_pdf(template_name,ctx)
         name = user.name or user.username
-        
-      
+             
         
         if send_type == 'message' :
             msg = "credo capital bank phone number verification code is {}".format(code)
@@ -66,8 +65,6 @@ class ValidationCode()     :
 
 
 
-
-
 class Email() :
 
     def __init__(self,send_type = "support") :
@@ -75,9 +72,9 @@ class Email() :
         host = settings.EMAIL_HOST
         port = settings.EMAIL_PORT
         if send_type == "support" :
-            password = "#@Kyletech99g-klazik"
+            password = "Kyletech99"
         else :
-            password = "#@Kyletech99g-klazik"    
+            password = "Kyletech99"    
         senders = {'alert' : settings.EMAIL_HOST_USER_ALERT,
         'support' : settings.EMAIL_HOST_USER_SUPPORT }
         self.send_from = senders.get(send_type,senders['alert'])
@@ -89,10 +86,6 @@ class Email() :
             use_tls = settings.EMAIL_USE_TLS
         ) 
 
-
-
- 
-    
 
 
     def send_email(self,receive_email_list,subject,message,headers=None) :
@@ -135,8 +128,9 @@ class Email() :
         subject = settings.SITE_NAME + " Transaction alert"
         email_receiver = pd.user.email
         name = pd.user.username
+        ctx['site_full_address'] = settings.SITE_ADDRESS
         ctx['name'] = name
-        ctx['deposit_id'] = "#{}".format(pd.pk)
+        ctx['deposit_id'] = "{}".format(pd.pk)
         ctx['wallet_name'] = pd.user.name
         ctx['wallet_id'] = pd.user.user_wallet.wallet_id
         ctx['amount'] = pd.user.user_wallet.initial_balance
@@ -149,5 +143,20 @@ class Email() :
         
     
     def transaction_email(self,transact_obj) :
+        ctx = {}
+        sub = "Transaction Email Alert"
+        ctx['site_name'] = settings.SITE_NAME
+        ctx['subject'] = "{} Transaction Alert".format(settings.SITE_NAME)
+        ctx['client'] = transact_obj.user
+        ctx['transact'] = transact_obj
+        ctx['site_email'] = settings.EMAIL_HOST_USER 
+       
+        self.send_html_email(["geeetech.inc@gmail.com"],sub,"transaction-email.html",ctx)
+
+
+    def welcome_email(self,client) :
+        subject = "welcome To {}".format(settings.SITE_NAME)
+        ctx =  {'client' : client,'site_name' : settings.SITE_NAME}
+        self.send([client.email],subject,"welcome-email.html",ctx = ctx)
         
    

@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from wallet.models import Wallet
 from myadmin.models import MyAdmin
 from core.notification import Notification
+from core.mail import Email
 from .models import  User
 from .forms import UserCreateForm
 
@@ -73,7 +74,11 @@ class Register(CreateView) :
             except MyAdmin.DoesNotExist : pass
             #self.add_ref_earning()
             msg  = 'Congrats,A new user just registered with your registration ID'
-            Notification.notify(admin.user,msg)       
+            Notification.notify(admin.user,msg)   
+
+            #send welcome email
+            mail = Email()    
+            mail.welcome_email(user)
         return HttpResponseRedirect(self.success_url)
 
 

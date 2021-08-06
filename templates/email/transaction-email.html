@@ -1,10 +1,10 @@
-
+{% load i18n %}
 <!doctype html>
 <html>
   <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>{{title}}</title>
+    <title>{{site_name}} Transaction Alert</title>
     <style>
       /* -------------------------------------
           GLOBAL RESETS
@@ -335,7 +335,7 @@
     </style>
   </head>
   <body class="">
-    <span class="preheader">Hi {{name}},welcome to {{site_name}}</span>
+    <span class="preheader">Transaction notification details </span>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
       <tr>
         <td>&nbsp;</td>
@@ -344,36 +344,69 @@
 
             <!-- START CENTERED WHITE CONTAINER -->
             <table role="presentation" class="main">
+            
 
               <!-- START MAIN CONTENT AREA -->
               <tr>
                 <td class="wrapper">
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                        <tr ><span style="font-size:22px;color:rgb(7, 7, 138);font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif">{{site_name}}</span></tr>
-                        <br><br>
-                    <tr>
+                      <tr ><span style="font-size:22px;color:rgb(7, 7, 138);font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif">{{site_name}}</tr><br>
+ 
+                      <tr>
                       <td>
-                        <p>Hello   <c style="color:rgb(38, 123, 235)">{{client.name}}</c> !</p>
-                        <p>Thank You for taking a step to improving your investment experience We at  {{site_name}} can't wait to do business with you,your trading  account has been created. Always feel free to communicate with us on how We can improve your trading experience.
-                           Your {{site_name}} wallet  address is <b>{{client.user_wallet.wallet_id}}</b>
-                        </p>
-                        
+                        <p>Hello {{client}},</p>
+                        <p>This is to inform you that a {{transact.transaction_type}} transaction  with id <b>{{transact.transaction_id}}</b> just occured in your {{site_name}} account . If you don't recognize this action, please do not hesitate to contact us at <b>{{site_email}}. </b>We look forward to having a blissful trading experience with you.You can easily know the state of your investments from your custom <a href="{% url 'dashboard' %}">{{site_name}} dashboard</a>.</p>
+                        <table style="background-color: rgb(202, 187, 187);margin-bottom:30px;padding:10px">
+                          <tbody>
+                            <tr style="padding-bottom:0px;margin-bottom:0px">
+                                <td>Transaction ID</td><td>{{transact.transaction_id}}</td>
+                              </tr>
+                           
+                            <tr style="padding-bottom:0px;margin-bottom:0px">
+                                <td>Wallet ID</td><td>{{client.user_wallet.wallet_id}}</td>
+                              </tr>
+
+
+
+                               <tr style="padding-bottom:0px;margin-bottom:0px">
+                                        <td>Amount</td><td>${{transact.amount}}</td>
+                                </tr>
+
+                                <tr style="padding-bottom:0px;margin-bottom:0px">
+                                  <td>Description</td><td>${{transact.description}}</td>
+                                </tr>
+                               
+
+                                  <tr style="padding-bottom:0px;margin-bottom:0px">
+                                      <td>Balance</td><td>${{client.user_wallet.current_balance}}</td>
+                                    </tr>
+
+                                    <tr style="padding-bottom:0px;margin-bottom:0px">
+                                        <td>Date</td><td>{{transact.date}}</td>
+                                      </tr>
+                          </tbody>
+
+                        </table>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>
                             <tr>
                               <td align="left">
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                                
+                                  <tbody>
+                                      
+                                    <tr   bbb>
+                                      <td style="color:white;background-color:rgb(38, 123, 235);color:white"> <a href="https://www.credocapitalbank.com{% url 'transaction-history' %}" target="_blank">View transaction history</a> </td>
+                                    </tr>
+                                  </tbody>
                                 </table>
                               </td>
                             </tr>
                           </tbody>
                         </table>
-                        <div style="padding:10px;background-color: rgb(202, 187, 187)">
-                        <b >Disclaimer </b><br>
+                        <br><br>
+                        <b>Disclaimer </b><br><br>
                         <p>The information contained in this message is highly confidential and solely intended for the individual or entity to whom it is addresed to.if you are not the intended receipient,please do not read.you are hereby notified that any disclosure of this communication in reliance of the contents of this information is strictly prohibited and may be unlawful.thank you for your kind gesture.</p>
-                    </div>
-                    </td>
+                      </td>
                     </tr>
                   </table>
                 </td>
