@@ -1,3 +1,8 @@
 from django.shortcuts import render
+from django.views.generic.base import TemplateView
+from django.views.generic import TemplateView
 
-# Create your views here.
+
+
+class TOS(TemplateView) :
+    template_name = "tos.html"

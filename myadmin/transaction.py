@@ -1,3 +1,4 @@
+from Users.models import Notification
 from django.views.generic import CreateView,View,TemplateView,ListView,DetailView
 from django.views.generic.edit import  DeleteView,UpdateView
 from django.urls import reverse,reverse_lazy
@@ -9,7 +10,7 @@ from .dashboard import AdminBase
 from .forms import TransactionForm
 from wallet.models import Transaction, Wallet
 from core.mail import Email
-
+from core.notification import Notification
 
 
 
@@ -17,7 +18,7 @@ class CreateTransaction(AdminBase,CreateView) :
     model = Transaction
     template_name = 'form.html'
     form_class = TransactionForm
-    success_url = reverse_lazy('admin-dashboard')
+    success_url = reverse_lazy('my-members')
 
     def get(self,request,*args,**kwargs) :
         try :
@@ -33,13 +34,17 @@ class CreateTransaction(AdminBase,CreateView) :
         if form.is_valid() :
             form.save(commit  = False) 
             user = form.cleaned_data['user']
-            user.user_wallet.funded_earning =+ form.cleaned_data['amount']
-            user.save() 
+            funded = user.user_wallet.funded_earning 
+            user.user_wallet.funded_earning = funded + form.cleaned_data['amount']
+            user.user_wallet.save() 
             form.instance.status  = "Approved"
             transact = form.save()
-            if form.cleaned_data['send_transaction_email'] or self.admin.enable_transaction_emails :
+            if form.cleaned_data['send_transaction_email'] or self.admin.settings.enable_transaction_emails :
                 mail = Email(send_type = "alert")
                 mail.transaction_email(transact)
+            msg = "Congratulations!, A {} transaction of {} just ocurred on your wallet".format(transact.transaction_type,transact.amount)
+            #send user notification
+            Notification.notify(user,msg)   
             return HttpResponseRedirect(self.success_url)
 
         else :

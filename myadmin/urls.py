@@ -6,7 +6,7 @@ from .wallet import  AddCoin,CoinList,DeleteCoin,EditCoin
 from .transaction import CreateTransaction,TransactionHistory
 from .email import SendCustomMail
 from .accounts import Register,Subscribe
-
+from .views import TOS
 
 
 urlpatterns = [
@@ -16,7 +16,7 @@ urlpatterns = [
     path('member/<str:username>',Members.as_view(),name = 'member-detail'),
     path('settings/',Settings.as_view(),name = 'admin-settings'),
     path('bfybydbfbbdhbfsbdgfgbgfgsvfg2ry/',Register.as_view(),name='admin-register'),
-
+    path('Terms-of-service',TOS.as_view(),name = 'tos'),
 
     #MEMBERS
     path('member/<str:username>/',MemberDetail.as_view(),name = 'member-detail'),

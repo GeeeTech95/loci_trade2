@@ -7,4 +7,4 @@ class Notification() :
 
     @classmethod
     def notify(cls,user,msg) :
-        cls.model.objects.create(user=user,msg=message)
+        cls.model.objects.create(user=user,message=msg)

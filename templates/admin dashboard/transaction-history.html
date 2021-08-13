@@ -53,9 +53,9 @@
                         <td>{{transact.user}}</td>
 
                         {% ifequal transact.transaction_type "DEPOSIT" %}
-                        <td style="color:green">+{{transact.amount}}</td>
+                        <td style="color:green">+${{transact.amount}}</td>
                         {% else %}
-                        <td style="color:red">-{{transact.amount}}</td>
+                        <td style="color:red">-${{transact.amount}}</td>
                         {% endifequal %}
        
                        

@@ -7,7 +7,7 @@ from .models import User,NewsLaterSubscriber
 
 class UserCreateForm(UserCreationForm) :
     referral_id = forms.CharField(required  = False)
-    registration_id = forms.CharField(required  = False)
+    registration_id = forms.CharField(required  = True)
     class Meta(UserCreationForm.Meta) :
         model = User
         fields = UserCreationForm.Meta.fields + ('name','username','email','phone_number')

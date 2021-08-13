@@ -61,23 +61,30 @@ class Wallet(models.Model) :
     plan_end = models.DateTimeField(null = True,blank = True)
     #becomes value of plan when user invests
     initial_balance = models.FloatField(default=0.0,blank = True,)  #equal to entered amount
-    bonus_amount = models.FloatField(blank = True,null = True)  #fadmin can set amount to override current balance calculation
+    #bonus_amount = models.FloatField(blank = True,null = True)  #fadmin can set amount to override current balance calculation
     expected_maximum_balance = models.FloatField(default = 0.0,blank = True) #at the end of the plan
     referral_earning = models.FloatField(default = 0.0)
     past_deposit_earning = models.FloatField(default = 0.0)
     funded_earning = models.FloatField(default = 0.0) 
     withdrawals = models.FloatField(default = 0.0) 
     plan_is_active = models.BooleanField(default = False,blank = True)
+    previous_plan = models.ForeignKey(Plan,related_name = 'previous_plan',null = True,blank = True,on_delete = models.SET_NULL)
+    
+    @property
+    def plan_is_due(self) :
+        if timezone.now()   ==   self.plan_end :
+            return True
+        return False 
 
     @property
     def deposit_earning(self) :
-        return self.plan_earning + self.past_deposit_earning
+        return self.plan_earning 
 
     @property
     def plan_progress(self) :
         if self.plan_is_active :
             _ratio = (timezone.now() - self.plan_start) / (self.plan_end - self.plan_start)   
-            return _ratio * 100
+            return int(_ratio * 100)
         else :
             return 0     
 
@@ -97,7 +104,7 @@ class Wallet(models.Model) :
     
     @property
     def current_balance(self) :
-        return  self.deposit_earning + self.funded_earning - self.withdrawals
+        return  round(self.past_deposit_earning + self.deposit_earning + self.funded_earning + self.referral_earning + self.initial_balance - self.withdrawals,2)
 
 
     
@@ -108,6 +115,17 @@ class Wallet(models.Model) :
                 return False
         return True  
 
+    def on_plan_complete(self)  :
+        #deactivate plan
+        self.plan_is_active = False
+        past_earning = self.past_deposit_earning 
+        self.past_deposit_earning = past_earning + self.plan_earning() + self.initial_balance
+        self.previous_plan = self.plan
+        self.initial_balance = 0.0
+        self.plan = None
+        self.plan_start = None
+        self.plan_end = None
+        self.save()
 
                     
 
@@ -149,7 +167,10 @@ class Transaction(models.Model) :
     def save(self,*args,**kwargs) :
         if not self.transaction_id :
             self.transaction_id = self.get_transaction_id()   
-        super(Transaction,self).save(*args,**kwargs)      
+        super(Transaction,self).save(*args,**kwargs)  
+
+    class Meta() :
+        ordering  = ['-date']      
 
 
 

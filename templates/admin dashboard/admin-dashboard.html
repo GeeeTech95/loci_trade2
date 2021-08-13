@@ -41,7 +41,7 @@
                             <span>
                               <c style="padding-right:30px">Reg link :</c><b><a href="{{reg_link}}">{{reg_link}}</b></a></span><br>
                             <c style="padding-right:30px">Reg and Ref link :</c><a href="{{reg_and_ref_link}}">{{reg_and_ref_link}}</a><br>
-                            <c style="padding-right:30px">Registered Users:</c><a href="">{{user.users.all|length}}</a>
+                            <c style="padding-right:30px">Registered Users:</c><a href="{% url 'my-members' %}">{{user.users.all|length}}</a>
                           </div>
                           <!--a href=""><p class="mb-0"><span class="col-orange">View Detail</span> </p></a-->
                         </div>
@@ -108,9 +108,9 @@
                         <td>{{transact.user}}</td>
 
                         {% ifequal transact.transaction_type "DEPOSIT" %}
-                        <td style="color:green">+{{transact.amount}}</td>
+                        <td style="color:green">+${{transact.amount}}</td>
                         {% else %}
-                        <td style="color:red">-{{transact.amount}}</td>
+                        <td style="color:red">-${{transact.amount}}</td>
                         {% endifequal %}
        
                        

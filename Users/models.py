@@ -15,7 +15,7 @@ class User(AbstractUser) :
     picture = models.FileField(upload_to = get_path)
     referals = models.ManyToManyField('self',symmetrical=False,blank = True,related_name ="referee")
     referral_id  = models.CharField(max_length=10,blank = True,editable = False)
-    admin = models.ForeignKey('self',null = False,related_name="users",editable = False,on_delete = models.SET_DEFAULT,default = '1')
+    admin = models.ForeignKey('self',null = True,related_name="users",editable = False,on_delete = models.SET_DEFAULT,default = '1')
     is_admin = models.BooleanField(default = False)
     
     def __str__(self)  :
@@ -36,6 +36,9 @@ class Notification(models.Model) :
     user = models.ForeignKey(User,related_name = 'notification',on_delete = models.CASCADE)
     message = models.TextField()
     date = models.DateTimeField(auto_now_add = True)
+
+    class Meta() :
+        ordering = ['-date']
 
 
 class NewsLaterSubscriber(models.Model) :

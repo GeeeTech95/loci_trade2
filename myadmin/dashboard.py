@@ -21,8 +21,7 @@ class AdminBase(UserPassesTestMixin,LoginRequiredMixin,) :
             admin = self.request.user.user_admin
             self.admin = admin
         except : return False
-        if not admin.is_active : return False
-
+        if not admin.allow_access : return False
         #check if free plan has expired
         if admin.free_plan_expired :
             #return False

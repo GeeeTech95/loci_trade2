@@ -15,6 +15,9 @@ def core(request) :
     else : pass
     ctx['site_name'] = "Loci Trade"
     ctx['site_email'] = "support@loci_trade.com"
+    ctx['site_phone'] = "+3594857578585858"
+    ctx['site_whatsapp_no'] = "+666586566"
+    ctx['site_address'] = "No 23 winston road new york"
     return ctx  
 
 

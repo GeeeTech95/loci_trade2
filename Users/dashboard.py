@@ -24,6 +24,12 @@ class Dashboard(LoginRequiredMixin,TemplateView) :
         #ctx['pending_deposit'] = request.user.
         return ctx
 
+    def get(self,request,*args,**kwargs)   :
+        if request.user.user_wallet.plan_is_due :
+            request.user.user_wallet.on_plan_complete()
+        return render(request,self.template_name,{})    
+
+
 
 class Profile(LoginRequiredMixin,UpdateView) :
     template_name = 'profile.html'

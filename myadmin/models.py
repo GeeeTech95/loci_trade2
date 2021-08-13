@@ -7,6 +7,7 @@ import random
 import socket
 from django.db.models  import  Sum
 from django.utils import timezone
+from django.conf import settings
 
 
 class MyAdmin(models.Model) :
@@ -30,13 +31,12 @@ class MyAdmin(models.Model) :
     secret_pin = models.CharField(max_length=4,default = "0000")
   
     
-    def auto_create_settings(self) :
-        Settings.objects.create(admin = self)
+   
         
 
     def save(self,*args,**kwargs) :
         if not self.pk :
-            self.auto_create_settings()
+            self.subscription_expiry = timezone.now() + timezone.timedelta(days = settings.FREE_PLAN_DURATION)
         if not self.reg_id :
             self.reg_id= self.get_reg()
         super(MyAdmin,self).save(*args,**kwargs)
@@ -62,6 +62,13 @@ class MyAdmin(models.Model) :
         revenue =  deposit - withdrawal 
         return revenue
         
+    @property
+    def allow_access(self) :
+        if  self.is_active :
+            return True
+        elif not self.free_plan_expired :
+            return True   
+        return False    
 
     def __str__(self) :
         return self.user.username 
@@ -101,6 +108,7 @@ class Settings(models.Model)  :
 
 class Subscription(models.Model) :
     admin = models.ForeignKey(MyAdmin, on_delete=models.CASCADE)
+    transaction_reference = models.TextField()
     is_approved = models.BooleanField(default = False)
     date = models.DateTimeField(auto_now_add=True)
     date_approved = models.DateTimeField(null = True,blank = True)

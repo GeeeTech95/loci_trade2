@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView,View
 from django.http import JsonResponse
 from django.core.mail import send_mail
+from django.conf import settings
 
 from wallet.models import Plan
 from .forms import ContactForm
@@ -56,7 +57,8 @@ class Contact(View) :
 
 
     def get(self,request,*args,**kwargs) :
-        return render(request,self.template_name,{'cclass' : 'active'})
+        ctx = {'cclass' : 'active','form' : self.form_class} 
+        return render(request,self.template_name,ctx)
 
     def post(self,request,*args,**kwargs) :
         feedback = {}
@@ -70,7 +72,7 @@ class Contact(View) :
             title = form.cleaned_data.get('title')
             message = "{} {}".format(name,form.cleaned_data.get('message'))
             email = form.cleaned_data.get('email')
-            ideal_email = "ideal.incorporation001@gmail.com"
+            ideal_email = settings.EMAIL_HOST_USER
             send_mail(
                 title,
                 message,

@@ -13,43 +13,53 @@
                 
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-12">
-                   <div class="card">
+                   <div class="">
                        
                         <!--h4 style="margin:10px;color:black;">Change Pin</h4-->
-                         
-                        <form class="needs-validation" novalidate="" method="POST" action="">
-                            {% csrf_token %}
+
                         <div class="card-header">
                             <h4>Make Payment</h4>
                         </div>
                         <div class="card-body">
+                            <div class="row">
                             <div class="col-12 col-md-6 col-lg-6">
+                                <div style="background-color:rgb(56, 29, 173)" hidden id="alert-div" class="alert alert-info alert-dismissible show fade">
+                                    <div id="alert-content" class="alert-body">
+                                      <button class="close" data-dismiss="alert">
+                                        <span>&times;</span>
+                                      </button>
+                                      <c></c>
+                                    </div>
+                                  </div>
                               
                                 <div class="card"  style="padding:20px">
-                                    <p>Make a payment of the amount below,and add the payment code to the description<b>(Very Important)</b></p>
-                                    <b>
-                                   Amount : #{{pay_code.amount}}<br>
-                                   Payment Code : {{pay_code.code}}
-                                    </b>
+                                    <p>Make a payment of <b>$200</b> to any of the wallet address below,input the transaction reference to the form attached<b>(Please Do ensure its correct)</b></p>
+                                    
+                                  <p><b>Bitcoin</b> : <c>bfbhbfhbsbfvsyvfybshba847q348arg86a6a4 &nbsp; <a class="copyButton" coin="Bitcoin"><i  style="font-size:20px"  class="far fa-copy"></i></a></c> </p>
+                                  <p><b>Ethereum </b>: <c>bfbhbfhbsbfvsyvfybshba847q348arg86a6a4 &nbsp; <a class="copyButton" coin="Ethereum"><i  style="font-size:20px" class="far fa-copy"></i></a></c> </p>
+                                  <p><b>BNB</b> : <c>bfbhbfhbsbfvsyvfybshba847q348arg86a6a4 &nbsp; <a class="copyButton" coin="BNB" ><i style="font-size:20px" class="far fa-copy"></i></a></c> </p>
+                                 
+
+                                  
+                                   
+                                    
+                                    <p>For enquiries,requests and complains please send a whatsapp message <a href="https:wa.me/{{site_whatsapp_no}}"><i style="font-size:20px" class="fab fa-rocketchat"></i></a></p>
                                 </div>
                              </div>
 
                              <div class="col-12 col-md-6 col-lg-6">
                                  <div class="card"  style="padding:20px">
-                                    <p>Do ensure payment is made only to the designated bank accounts,Click on the proceed button when payments has been  made.</p>
-                                    <b>
-                                     {% for bank in banks %}
-                                     Bank name : {{bank.acc_name}}<br>
-                                     Account number : {{bank.acc_no}}<br>
-                                     Bank : {{bank.bank_name}}<br>
-                                     {% endfor %}
-                                    </b>
-                                    
+                                    <form class="needs-validation" novalidate="" method="POST" action="">
+                                        {% csrf_token %}
+                                          {{form|crispy}}
+                                     </form>
                                   </div>
                               </div>
+                            </div>
                         </div>
+                   </div>
                        
-                        </form>
+         
                         <div class="card-footer text-right">
                             <button action_url=" " id="made-payment" class="btn btn-primary">Payment Made</button>
                         </div>
@@ -58,7 +68,7 @@
             </div>
           </div>
         </section>
-</div>            
+          </div>            
 {% endblock %}
 
    
@@ -76,5 +86,17 @@
    
 })
 
+
+$(".copyButton").click(function(){
+    var $temp = $("<input>")
+    $("body").append($temp)
+    $temp.val($(this).parent().text()).select()
+    document.execCommand("copy")
+    $temp.remove()
+    var text = $(this).attr('coin') +  " Wallet address has been copied to clipboard"
+    $("#alert-div #alert-content c").html(text)
+    $("#alert-div").removeAttr("hidden")
+  
+})
 </script>
  {% endblock %}
