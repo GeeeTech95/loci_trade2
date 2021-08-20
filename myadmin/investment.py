@@ -15,7 +15,7 @@ from .dashboard import AdminBase
 
 class CreatePlan(AdminBase,CreateView) :
     model = Plan
-    success_url = reverse_lazy('admin-plans')
+    success_url = reverse_lazy('plans-admin')
     template_name = 'form.html'
     fields = ['name','min_cost','max_cost','interest_rate','duration']
 

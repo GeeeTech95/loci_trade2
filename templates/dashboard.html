@@ -232,8 +232,8 @@
                                                     <h4>Pending Deposit</h4>
                                                 </div>
                                                 <div class="card-body" style="font-size:21px">
-                                                    ${% if user.user_pending_deposit.plan.activation_cost %}
-                                                    {{user.user_pending_deposit.plan.activation_cost}}
+                                                    ${% if user.user_pending_deposit %}
+                                                    {{user.user_pending_deposit.amount}}
                                                     {% else %}
                                                     0.00
                                                     {% endif %}

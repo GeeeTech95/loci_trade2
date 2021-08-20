@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
-    <title>Trustbase-investment</title>
+    <title>{{site_name}} | Join Us</title>
     <!-- Bootstrap core CSS -->
     <link href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Google Font  -->
@@ -45,7 +45,7 @@
  
                             <div style="padding:10px" class="form-group col-12 mb-3">
                                 {% csrf_token %}
-                              {{form|crispy}}
+                                 {{form|crispy}}
                             </div>
                            
                        
@@ -55,7 +55,7 @@
                                     <img src="{% static 'assets/img/ajax-loader.gif' %}" id="loader" style="display:none" alt="loading" width="16" height="16">
                                 </div>
                                 <br>
-                                <h4>Have an account already ? <a href="{% url 'login' %}">Login</a></h4>
+                                <h4>Have an account already ? <a href="{% url 'login' %}"> Login </a></h4>
                             </div>
                         </div>
                     </form>								

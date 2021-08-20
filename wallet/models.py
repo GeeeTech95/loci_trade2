@@ -76,9 +76,7 @@ class Wallet(models.Model) :
             return True
         return False 
 
-    @property
-    def deposit_earning(self) :
-        return self.plan_earning 
+
 
     @property
     def plan_progress(self) :
@@ -104,7 +102,7 @@ class Wallet(models.Model) :
     
     @property
     def current_balance(self) :
-        return  round(self.past_deposit_earning + self.deposit_earning + self.funded_earning + self.referral_earning + self.initial_balance - self.withdrawals,2)
+        return  round(self.past_deposit_earning + self.plan_earning + self.funded_earning + self.referral_earning - self.withdrawals,2)
 
 
     

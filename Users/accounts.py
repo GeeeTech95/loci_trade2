@@ -78,7 +78,8 @@ class Register(CreateView) :
 
             #send welcome email
             mail = Email()    
-            mail.welcome_email(user)
+            try : mail.welcome_email(user) 
+            except : pass
         return HttpResponseRedirect(self.success_url)
 
 

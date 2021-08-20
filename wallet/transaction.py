@@ -11,6 +11,8 @@ from Users.models import Notification
 from django.utils import timezone
 import datetime
 
+
+
 class EnterDepositAmount(LoginRequiredMixin,View)  :
     template_name = 'enter-amount.html'
     form_class = AmountForm
@@ -38,10 +40,11 @@ class EnterDepositAmount(LoginRequiredMixin,View)  :
         if form.is_valid() :
             amount = form.cleaned_data['amount']
             return HttpResponseRedirect(reverse('deposit',args=[plan.slug,amount]))
-        else : return render(request,self.template_name,locals())    
+        else :
+            
+            return render(request,self.template_name,locals())    
 
-
-
+  
 
 class Deposit(LoginRequiredMixin,View)  :
     model = Wallet
@@ -67,7 +70,6 @@ class Deposit(LoginRequiredMixin,View)  :
 
 
 
-
 class DepositComplete(LoginRequiredMixin,View)  :
     model = Wallet
     model_p = Plan
@@ -84,6 +86,8 @@ class DepositComplete(LoginRequiredMixin,View)  :
         
         #check if user has pending deposit
         if not PendingDeposit.objects.filter(user = request.user,is_approved = False).exists() :
+            msg = "You deposit has been acknowledged and is now processing,you will be notified shortly" 
+            Notification.objects.create(user = request.user,message = msg)
             #create pending deposit 
             PendingDeposit.objects.create(user = request.user,plan = plan,coin = coin,amount = amount) 
             url = urljoin(reverse('dashboard'),"?dpt=hsdvv") 
@@ -97,7 +101,7 @@ class DepositComplete(LoginRequiredMixin,View)  :
 
 
 
-class Withdrawal(LoginRequiredMixin,View)  :
+class Withdrawal(LoginRequiredMixin,View)  :  
     model = WithdrawalApplication
     template_name = 'withdrawal.html' 
     form_class  = WithdrawalForm

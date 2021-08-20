@@ -157,6 +157,6 @@ class Email() :
     def welcome_email(self,client) :
         subject = "welcome To {}".format(settings.SITE_NAME)
         ctx =  {'client' : client,'site_name' : settings.SITE_NAME}
-        self.send([client.email],subject,"welcome-email.html",ctx = ctx)
+        self.send_html_email([client.email],subject,"welcome-email.html",ctx = ctx)
         
    
